@@ -1,11 +1,37 @@
 <html>
-    <head>
-        <title>Captain Coder's Code Sharing</title>
-    </head>
+
+<head>
+    <title>Captain Coder's Code Sharing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/vs2015.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
+    <style>
+        .button {
+            display: block;
+            height: 25px;
+            background: #4E9CAF;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            line-height: 25px;
+            text-decoration: none;
+            max-width: 250px;
+            box-shadow: 5px 5px 5px grey;
+        }
+    </style>
+</head>
+
 <body>
     <h1 id="header">Loading Program...</h1>
+    <div id="code-block" style="display:none">
+        <pre><code id="code-area" class="language-csharp"></code></pre>
+        <a class="button" id="link" href="javascript:void(0);">Open in VS Code</a>
+    </div>
 
     <!-- Firebase UI Auth -->
     <script type="module" src="./share.js"></script>
 </body>
+
 </html>
