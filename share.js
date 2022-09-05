@@ -1,16 +1,20 @@
+var id = undefined;
 function handleResponse() {
     if (this.status === 200) {
-        const VSCodeLink = `vscode://captain-coder.adventures-in-c--extension/load-shared-program?program.cs=${this.responseText}`;
         document.getElementById("header").innerHTML = "Code Preview:"
         const el = document.getElementById("code-area");
-        el.innerHTML = Base64.decode(this.responseText);
+        const response = JSON.parse(this.response);
+        const VSCodeLink = `vscode://captain-coder.adventures-in-c--extension/load-shared-program?id=${id}`;
+        el.innerHTML = Base64.decode(response.result.code);
+        document.getElementById("pastebin").href = response.result.url;
         hljs.highlightElement(el);
         document.getElementById("code-block").style.display = "block";
         document.getElementById("link").href = VSCodeLink;
 
     } else {
-        console.error(this.responseText);
-        document.getElementById('header').innerHTML = `Could not load program: ${this.responseText}`;
+        const error = JSON.parse(this.response);
+        console.error(error);
+        document.getElementById('header').innerHTML = `Could not load program: ${error.result}`;
     }
 }
 
@@ -20,6 +24,7 @@ function loadURL() {
         get: (searchParams, prop) => searchParams.get(prop),
     });
     let value = params.id; // "some_value"
+    id = value;
 
     const Http = new XMLHttpRequest();
     Http.addEventListener("load", handleResponse);
