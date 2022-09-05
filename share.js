@@ -1,4 +1,5 @@
 var id = undefined;
+
 function handleResponse() {
     if (this.status === 200) {
         document.getElementById("header").innerHTML = "Code Preview:"
@@ -6,7 +7,6 @@ function handleResponse() {
         const response = JSON.parse(this.response);
         const VSCodeLink = `vscode://captain-coder.adventures-in-c--extension/load-shared-program?id=${id}`;
         el.innerHTML = Base64.decode(response.result.code);
-        document.getElementById("pastebin").href = response.result.url;
         hljs.highlightElement(el);
         document.getElementById("code-block").style.display = "block";
         document.getElementById("link").href = VSCodeLink;
@@ -19,16 +19,14 @@ function handleResponse() {
 }
 
 function loadURL() {
-    // http://127.0.0.1:3000/index.html?id=9b34ddbd-a316-431d-b73f-5e7f7b33e2fe
     const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
     });
-    let value = params.id; // "some_value"
-    id = value;
+    id = params.id;
 
     const Http = new XMLHttpRequest();
     Http.addEventListener("load", handleResponse);
-    const url = `https://us-central1-introtocsharp-a5eeb.cloudfunctions.net/getLoadProgramURL?id=${value}`;
+    const url = `https://us-central1-introtocsharp-a5eeb.cloudfunctions.net/getLoadProgramURL?id=${id}`;
     Http.open("GET", url);
     Http.send();
 }
