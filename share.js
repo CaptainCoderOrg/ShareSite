@@ -6,7 +6,7 @@ function handleResponse() {
         const el = document.getElementById("code-area");
         const response = JSON.parse(this.response);
         const VSCodeLink = `vscode://captain-coder.adventures-in-c--extension/load-shared-program?id=${id}`;
-        el.innerHTML = Base64.decode(response.result.code);
+        el.innerHTML = Base64.decode(LZString.decompressFromBase64(response.result.code));
         hljs.highlightElement(el);
         document.getElementById("code-block").style.display = "block";
         document.getElementById("link").href = VSCodeLink;
@@ -26,7 +26,7 @@ function loadURL() {
 
     const Http = new XMLHttpRequest();
     Http.addEventListener("load", handleResponse);
-    const url = `https://us-central1-introtocsharp-a5eeb.cloudfunctions.net/getLoadProgramURL?id=${id}`;
+    const url = `https://us-central1-introtocsharp-a5eeb.cloudfunctions.net/getLoadProgramURL?id=${id}&decompress=false`;
     Http.open("GET", url);
     Http.send();
 }
